@@ -1,49 +1,29 @@
-#include <iostream>
-#include <string>
+#include "includes/helper.h"
+#include "includes/parser.h"
+#include "includes/translate.h"
+#include <fstream>
+#include <iostream> // For console output
+#include <string>   // For reading lines into a string
 
-bool match_pattern(const std::string& input_line, const std::string& pattern) {
-    if (pattern.length() == 1) {
-        return input_line.find(pattern) != std::string::npos;
+int main() {
+
+  Parser parse;
+  Translate t;
+
+  std::ifstream inputFile("m.asm");
+  if (!inputFile.is_open()) {
+    std::cerr << "Error opening file!" << std::endl;
+    return 1;
+  }
+  std::string line;
+  while (std::getline(inputFile, line)) {
+    if (line.size() < 1) {
+      continue;
+    } else if (line.substr(0, 1) == "//") {
+      continue;
+    } else if (line[0] == '@') {
+      std::string final_output = t.translate_a_instruc(line);
+      helper_append_file(final_output);
     }
-    else {
-        throw std::runtime_error("Unhandled pattern " + pattern);
-    }
-}
-
-int main(int argc, char* argv[]) {
-    // Flush after every std::cout / std::cerr
-    std::cout << std::unitbuf;
-    std::cerr << std::unitbuf;
-
-    // You can use print statements as follows for debugging, they'll be visible when running tests.
-    std::cout << "Logs from your program will appear here" << std::endl;
-
-    if (argc != 3) {
-        std::cerr << "Expected two arguments" << std::endl;
-        return 1;
-    }
-
-    std::string flag = argv[1];
-    std::string pattern = argv[2];
-
-    if (flag != "-E") {
-        std::cerr << "Expected first argument to be '-E'" << std::endl;
-        return 1;
-    }
-
-    // Uncomment this block to pass the first stage
-    //
-    // std::string input_line;
-    // std::getline(std::cin, input_line);
-    //
-    // try {
-    //     if (match_pattern(input_line, pattern)) {
-    //         return 0;
-    //     } else {
-    //         return 1;
-    //     }
-    // } catch (const std::runtime_error& e) {
-    //     std::cerr << e.what() << std::endl;
-    //     return 1;
-    // }
+  }
 }
