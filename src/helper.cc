@@ -1,10 +1,8 @@
 #include "../includes/helper.h"
 #include <bitset>
-#include <iostream>
 #include <fstream>
 #include <iostream>
 #include <string>
-
 
 int helper_string_int(std::string string) {
 
@@ -27,11 +25,28 @@ std::string helper_decimal_string(int decimal) {
 
 void helper_append_file(std::string binary) {
   std::ofstream outputFile;
-  outputFile.open("final.txt", std::ios::app);
+  outputFile.open("final.hack", std::ios::app);
   if (outputFile.is_open()) {
-    outputFile << binary;
-    outputFile.close(); 
+    outputFile << binary << std::endl;
+    outputFile.close();
   } else {
     std::cerr << "Error opening file for appending." << std::endl;
   }
 }
+
+//void helper_extract(int starting_point, std::string end_point) {
+
+    /*
+  int num;
+  size_t hyphen_pos = fname.find('-');
+  if (hyphen_pos == std::string::npos)
+    return 0;
+  try {
+    num = std::stoi(fname.substr(0, hyphen_pos));
+  } catch (std::exception error_) {
+    spdlog::error("{}", error_.what());
+    return -1;
+  }
+  return num;
+ */ 
+//}

@@ -26,4 +26,10 @@ int main() {
       helper_append_file(final_output);
     }
   }
+
+  //std::ifstream ifs("final.hack");
+  //std::string str((std::istreambuf_iterator<char>(ifs)),
+    //              std::istreambuf_iterator<char>());
+
+  return 0;
 }

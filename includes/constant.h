@@ -6,6 +6,6 @@
 #include <unordered_map>
 
 
-extern const std::unordered_map<std::string, std::string> c_instruc;
+extern const std::unordered_map<std::string, std::string> c_instruction_table;
 
 #endif
