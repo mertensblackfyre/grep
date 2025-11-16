@@ -41,3 +41,15 @@ int helper_delimiter_pos(const std::string &line, char delimiter) {
   };
   return pos;
 };
+
+std::string
+helper_find_value(const std::string &key,
+                  const std::unordered_map<std::string, std::string> &table) {
+  auto it = table.find(key);
+  if (it != table.end()) {
+    return it->second;
+  } else {
+    return "0";
+  }
+  return "0";
+};
