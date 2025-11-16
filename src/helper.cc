@@ -34,19 +34,10 @@ void helper_append_file(std::string binary) {
   }
 }
 
-//void helper_extract(int starting_point, std::string end_point) {
-
-    /*
-  int num;
-  size_t hyphen_pos = fname.find('-');
-  if (hyphen_pos == std::string::npos)
+int helper_extract( const std::string &string, char delimiter) {
+  int pos = string.find(delimiter);
+  if (pos == std::string::npos) {
     return 0;
-  try {
-    num = std::stoi(fname.substr(0, hyphen_pos));
-  } catch (std::exception error_) {
-    spdlog::error("{}", error_.what());
-    return -1;
-  }
-  return num;
- */ 
-//}
+  };
+  return pos;
+};
