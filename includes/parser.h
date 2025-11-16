@@ -28,14 +28,23 @@ C_Instruction Parser::parse_C__(const std::string &line) {
   int equal_pos = helper_delimiter_pos(line, '=');
   int semicolon_pos = helper_delimiter_pos(line, ';');
 
-  std::string dest_instruc = line.substr(0, equal_pos);
-  std::string comp_instruc = line.substr(equal_pos, semicolon_pos);
-  std::string jump_instruc = line.substr(semicolon_pos, line.size() - 1);
+  if (equal_pos && semicolon_pos) {
+    ins.dest = line.substr(0, equal_pos);
+    ins.comp = line.substr(equal_pos + 1, semicolon_pos - 3);
+    ins.jump = line.substr(semicolon_pos + 1, line.size() - 1);
+  } else if (equal_pos && !semicolon_pos) {
+    ins.dest = line.substr(0, equal_pos);
+    ins.comp = line.substr(equal_pos + 1, line.size() - 1);
+  } else if (!equal_pos && semicolon_pos) {
+    ins.comp = line.substr(0, semicolon_pos - 1);
+    ins.jump = line.substr(semicolon_pos + 1, line.size() - 1);
+  } else {
+    ins.comp = line;
+  };
 
-
-  std::cout << dest_instruc << std::endl;
-  std::cout << comp_instruc << std::endl;
-  std::cout << jump_instruc << std::endl;
+  std::cout << ins.dest << std::endl;
+  std::cout << ins.comp << std::endl;
+  std::cout << ins.jump << std::endl;
   return ins;
 };
 

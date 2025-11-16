@@ -34,8 +34,8 @@ void helper_append_file(std::string binary) {
   }
 }
 
-int helper_extract( const std::string &string, char delimiter) {
-  int pos = string.find(delimiter);
+int helper_delimiter_pos(const std::string &line, char delimiter) {
+  int pos = line.find(delimiter);
   if (pos == std::string::npos) {
     return 0;
   };
