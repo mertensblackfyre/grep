@@ -16,6 +16,11 @@ public:
 
 std::string Translate::translate_a_instruc(const std::string &parsed_string) {
   std::string string_value = Parser::parse_A__(parsed_string);
+
+  if (Parser::SYMBOL_TABLE.count(string_value)) {
+    string_value = Parser::SYMBOL_TABLE[string_value];
+  };
+
   int number_value = helper_string_int(string_value);
   std::string binary_string = helper_decimal_string(number_value);
   std::string ss = binary_string.insert(0, "0");

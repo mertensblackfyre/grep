@@ -2,7 +2,9 @@
 #define PARSER_H
 
 #include "helper.h"
+#include <fstream>
 #include <iostream>
+#include <unordered_map>
 
 struct C_Instruction {
   std::string dest{};
@@ -11,10 +13,43 @@ struct C_Instruction {
 };
 
 class Parser {
-
 public:
+  inline static std::unordered_map<std::string, int> VARIABLE_TABLE = {};
+  inline static std::unordered_map<std::string, std::string> SYMBOL_TABLE = {
+      {"R0", "0"},         {"R1", "1"},      {"R2", "2"},   {"R3", "3"},
+      {"R4", "4"},         {"R5", "5"},      {"R6", "6"},   {"R7", "7"},
+      {"R8", "8"},         {"R9", "9"},      {"R10", "10"}, {"R11", "11"},
+      {"R12", "12"},       {"R13", "13"},    {"R14", "14"}, {"R15", "15"},
+      {"SCREEN", "16384"}, {"KBD", "24576"}, {"SP", "0"},   {"LCL", "1"},
+      {"ARG", "2"},        {"THIS", "3"},    {"THAT", "4"},
+  };
+  inline void parse_first_pass(const std::string &fname);
   static inline std::string parse_A__(const std::string &line);
   static inline C_Instruction parse_C__(const std::string &line);
+
+private:
+  int counter = 0;
+};
+
+void Parser::parse_first_pass(const std::string &fname) {
+  std::string line;
+
+  counter++;
+  std::ifstream inputFile(fname);
+  if (!inputFile.is_open()) {
+    std::cerr << "Error opening file!" << std::endl;
+  }
+
+  while (std::getline(inputFile, line)) {
+    if (line.size() < 1) {
+      continue;
+    } else if (line[0] == '/') {
+      continue;
+    } else if (line[0] == '@') {
+      //    std::string final_output = t.translate_a_instruc(line);
+      //  helper_append_file(final_output);
+    }
+  };
 };
 
 std::string Parser::parse_A__(const std::string &line) {
