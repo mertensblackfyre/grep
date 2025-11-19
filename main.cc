@@ -63,7 +63,7 @@ int main() {
       std::string final_output = t.translate_a_instruc(line);
       helper_append_file(final_output);
     } else {
-      C_Instruction m = parse.parse_C__(line);
+      C_Instruction m = parse.parse_C_instruction(line);
       std::string final_output = t.translate_c_instruc(m);
       helper_append_file(final_output);
     };

@@ -10,12 +10,13 @@
 class Translate {
 
 public:
-  inline std::string translate_a_instruc(const std::string &parsed_string);
-  inline std::string translate_c_instruc(const C_Instruction &parsed_strings);
+  inline std::string translate_a_instruc(const std::string &line);
+  inline std::string translate_c_instruc(const C_Instruction &line);
 };
 
-std::string Translate::translate_a_instruc(const std::string &parsed_string) {
-  std::string string_value = Parser::parse_A__(parsed_string);
+std::string Translate::translate_a_instruc(const std::string &line) {
+  std::string parsed_string = Parser::parse_instruction(line);
+  std::string string_value = Parser::parse_A_instruction(parsed_string);
 
   if (Parser::SYMBOL_TABLE.count(string_value)) {
     string_value = Parser::SYMBOL_TABLE[string_value];
@@ -33,6 +34,7 @@ Translate::translate_c_instruc(const C_Instruction &parsed_strings) {
   std::string final_output = "111";
 
   std::string comp_binary_value =
+
       helper_find_value(parsed_strings.comp, COMP_TABLE);
 
   std::string dest_binary_value =

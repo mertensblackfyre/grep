@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include "helper.h"
+#include <cctype>
 #include <fstream>
 #include <iostream>
 #include <unordered_map>
@@ -26,22 +27,31 @@ public:
   inline void parse_symbols(const std::string &fname);
   inline void parse_variables(const std::string &fname);
 
-  static inline std::string parse_instructions(const std::string &line);
-  static inline std::string parse_A__(const std::string &line);
-  static inline C_Instruction parse_C__(const std::string &line);
+  static inline std::string parse_instruction(const std::string &line);
+  static inline std::string parse_A_instruction(const std::string &line);
+  static inline C_Instruction parse_C_instruction(const std::string &line);
 
 private:
   inline static int counter = 0;
   inline static int memory_counter = 16;
 };
 
-std::string Parser::parse_instructions(const std::string &line) {
-
+std::string Parser::parse_instruction(const std::string &line) {
+  std::string parsed_string = "";
+  for (const char &ch : line) {
+    if (ch == '/')
+      break;
+    if (!std::isspace(ch) && ch != '/')
+      parsed_string += ch;
+  };
+  return parsed_string;
 };
 
-std::string Parser::parse_A__(const std::string &line) {
-  std::size_t found = line.find_first_of(" \t\n\r");
-  return line.substr(1, found);
+std::string Parser::parse_A_instruction(const std::string &line) {
+  if (line.size() <= 1) {
+    return "";
+  }
+  return line.substr(1, line.size() - 1);
 };
 
 void Parser::parse_symbols(const std::string &fname) {
@@ -53,11 +63,10 @@ void Parser::parse_symbols(const std::string &fname) {
   }
 
   while (std::getline(inputFile, line)) {
-
     if (line.size() < 1 || line[0] == '/' || line[0] == '(') {
       continue;
     } else if (line[0] == '@') {
-      std::string a_ins = parse_A__(line);
+      std::string a_ins = parse_A_instruction(line);
       if (a_ins == "LOOP" || a_ins == "END" || a_ins == "STOP") {
         if (!SYMBOL_TABLE.count(a_ins)) {
           SYMBOL_TABLE[a_ins] = std::to_string(counter);
@@ -68,7 +77,6 @@ void Parser::parse_symbols(const std::string &fname) {
       counter++;
     }
   };
-
   inputFile.close();
 };
 
@@ -81,7 +89,7 @@ void Parser::parse_variables(const std::string &fname) {
   }
   while (std::getline(inputFile, line)) {
     if (line[0] == '@') {
-      std::string a_ins = parse_A__(line);
+      std::string a_ins = parse_A_instruction(line);
       if (!SYMBOL_TABLE.count(a_ins)) {
         SYMBOL_TABLE[a_ins] = std::to_string(memory_counter);
         memory_counter++;
@@ -92,7 +100,7 @@ void Parser::parse_variables(const std::string &fname) {
   inputFile.close();
 };
 
-C_Instruction Parser::parse_C__(const std::string &line) {
+C_Instruction Parser::parse_C_instruction(const std::string &line) {
   C_Instruction ins{"", "", ""};
   int equal_pos = helper_delimiter_pos(line, '=');
   int semicolon_pos = helper_delimiter_pos(line, ';');
