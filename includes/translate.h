@@ -10,7 +10,7 @@
 class Translate {
 
 public:
- static inline std::string translate_a_instruc(const std::string &line);
+  static inline std::string translate_a_instruc(const std::string &line);
   static inline std::string translate_c_instruc(const C_Instruction &line);
 };
 
@@ -34,7 +34,6 @@ Translate::translate_c_instruc(const C_Instruction &parsed_strings) {
   std::string final_output = "111";
 
   std::string comp_binary_value =
-
       helper_find_value(parsed_strings.comp, COMP_TABLE);
 
   std::string dest_binary_value =

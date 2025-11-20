@@ -63,15 +63,15 @@ void Parser::parse_symbols(const std::string &fname) {
   }
 
   while (std::getline(inputFile, line)) {
-    if (line.size() < 1 || line[0] == '/' || line[0] == '(') {
+    if (line.size() < 1 || line[0] == '/') {
       continue;
-    } else if (line[0] == '@') {
-      std::string a_ins = parse_A_instruction(line);
+    } else if (line[0] == '(') {
+      std::string a_ins = parse_instruction(line);
+      a_ins = a_ins.substr(1, a_ins.size() - 2);
       if (a_ins == "LOOP" || a_ins == "END" || a_ins == "STOP") {
         if (!SYMBOL_TABLE.count(a_ins)) {
           SYMBOL_TABLE[a_ins] = std::to_string(counter);
         };
-        counter++;
       }
     } else {
       counter++;
@@ -89,7 +89,7 @@ void Parser::parse_variables(const std::string &fname) {
   }
   while (std::getline(inputFile, line)) {
     if (line[0] == '@') {
-      std::string a_ins = parse_A_instruction(line);
+      std::string a_ins = parse_A_instruction(parse_instruction(line));
       if (!SYMBOL_TABLE.count(a_ins)) {
         SYMBOL_TABLE[a_ins] = std::to_string(memory_counter);
         memory_counter++;
@@ -116,7 +116,7 @@ C_Instruction Parser::parse_C_instruction(const std::string &line) {
     ins.dest = parsed_string.substr(0, equal_pos);
     ins.comp = parsed_string.substr(equal_pos + 1, line.size() - 1);
   } else if (!equal_pos && semicolon_pos) {
-    ins.comp = parsed_string.substr(0, semicolon_pos - 1);
+    ins.comp = parsed_string.substr(0, semicolon_pos);
     ins.jump = parsed_string.substr(semicolon_pos + 1, line.size() - 1);
   } else {
     ins.comp = parsed_string;
