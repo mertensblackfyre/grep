@@ -1,40 +1,41 @@
 cmake_minimum_required(VERSION 3.16)
 project(hasm LANGUAGES C CXX)
 
-
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 
-set(SOURCES
-    main.cc
+# ---- Shared library for common code ----
+set(HASM_LIB_SOURCES
     src/constant.cc
     src/helper.cc
 )
 
+add_library(hasm_lib ${HASM_LIB_SOURCES})
 
-add_library(hasm_lib STATIC ${HASM_SOURCES})
-
-target_include_directories(hasm_lib
-    PUBLIC ${PROJECT_SOURCE_DIR}/include
-)
+target_include_directories(hasm_lib PUBLIC ${CMAKE_SOURCE_DIR}/includes)
 
 # ---- Main executable ----
-add_executable(hasm src/main.cpp)
+add_executable(hasm main.cc)
+
 target_link_libraries(hasm PRIVATE hasm_lib)
 
-# ---- Test executable ----
-set(TEST_SOURCES
-    tests/test_parser.cpp
-    # add other test files here
+# ---- Tests ----
+enable_testing()
+find_package(GTest REQUIRED)
+
+add_executable(hasm_tests
+    tests/test_parser.cc
+    tests/test_translate.cc
 )
 
-add_executable(hasm_tests ${TEST_SOURCES})
-target_link_libraries(hasm_tests PRIVATE hasm_lib gtest gtest_main)
+target_include_directories(hasm_tests PRIVATE ${CMAKE_SOURCE_DIR}/includes)
 
-# Enable testing and discover tests
-enable_testing()
-include(GoogleTest)
-gtest_discover_tests(hasm_tests)
+target_link_libraries(hasm_tests
+    PRIVATE
+        hasm_lib
+        GTest::gtest
+        GTest::gtest_main
+)
 

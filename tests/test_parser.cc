@@ -43,7 +43,7 @@ TEST(Parser, Parser_C) {
 
   // Test 4
   EXPECT_EQ(test_4.dest,"D");
-  EXPECT_EQ(test_4.comp,"D+1");
+  EXPECT_EQ(test_4.comp,"D-1");
   EXPECT_EQ(test_4.jump,"JMP");
 
 }

@@ -10,8 +10,8 @@
 class Translate {
 
 public:
-  inline std::string translate_a_instruc(const std::string &line);
-  inline std::string translate_c_instruc(const C_Instruction &line);
+ static inline std::string translate_a_instruc(const std::string &line);
+  static inline std::string translate_c_instruc(const C_Instruction &line);
 };
 
 std::string Translate::translate_a_instruc(const std::string &line) {

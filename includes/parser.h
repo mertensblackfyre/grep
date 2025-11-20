@@ -101,27 +101,27 @@ void Parser::parse_variables(const std::string &fname) {
 };
 
 C_Instruction Parser::parse_C_instruction(const std::string &line) {
+
   C_Instruction ins{"", "", ""};
-  int equal_pos = helper_delimiter_pos(line, '=');
-  int semicolon_pos = helper_delimiter_pos(line, ';');
+
+  std::string parsed_string = parse_instruction(line);
+  int equal_pos = helper_delimiter_pos(parsed_string, '=');
+  int semicolon_pos = helper_delimiter_pos(parsed_string, ';');
 
   if (equal_pos && semicolon_pos) {
-    ins.dest = line.substr(0, equal_pos);
-    ins.comp = line.substr(equal_pos + 1, semicolon_pos - 3);
-    ins.jump = line.substr(semicolon_pos + 1, line.size() - 1);
+    ins.dest = parsed_string.substr(0, equal_pos);
+    ins.comp = parsed_string.substr(equal_pos + 1, semicolon_pos - 2);
+    ins.jump = parsed_string.substr(semicolon_pos + 1, line.size() - 1);
   } else if (equal_pos && !semicolon_pos) {
-    ins.dest = line.substr(0, equal_pos);
-    ins.comp = line.substr(equal_pos + 1, line.size() - 1);
+    ins.dest = parsed_string.substr(0, equal_pos);
+    ins.comp = parsed_string.substr(equal_pos + 1, line.size() - 1);
   } else if (!equal_pos && semicolon_pos) {
-    ins.comp = line.substr(0, semicolon_pos - 1);
-    ins.jump = line.substr(semicolon_pos + 1, line.size() - 1);
+    ins.comp = parsed_string.substr(0, semicolon_pos - 1);
+    ins.jump = parsed_string.substr(semicolon_pos + 1, line.size() - 1);
   } else {
-    ins.comp = line;
+    ins.comp = parsed_string;
   };
 
-  std::cout << ins.comp << " ";
-  std::cout << ins.dest << " ";
-  std::cout << ins.jump << std::endl;
   return ins;
 };
 
