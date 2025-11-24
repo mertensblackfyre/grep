@@ -1,7 +1,7 @@
-#ifndef TRANSLATE_H
-#define TRANSLATE_H
+#pragma once
 
 #include "constant.h"
+
 #include "helper.h"
 #include "parser.h"
 #include <bitset>
@@ -63,4 +63,3 @@ Translate::translate_c_instruc(const C_Instruction &parsed_strings) {
   return final_output;
 };
 
-#endif

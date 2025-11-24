@@ -1,5 +1,4 @@
-#ifndef PARSER_H
-#define PARSER_H
+#pragma once
 
 #include "helper.h"
 #include <cctype>
@@ -125,4 +124,3 @@ C_Instruction Parser::parse_C_instruction(const std::string &line) {
   return ins;
 };
 
-#endif
