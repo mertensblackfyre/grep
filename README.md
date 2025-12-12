@@ -1,12 +1,13 @@
-# Hack VM Translator
+# Hack Assembler
 
-A simple, clean, and fully-functional **VM → Hack Assembly** translator for **Nand2Tetris**
+A simple assembler for the **Hack computer** from the *Nand2Tetris* course.  
+It translates Hack assembly code (`.asm`) into machine code (`.hack`) following the official specification.
 
 ## Usage
-Run the it with an input file & output file:
+Run the assembler with an input file:
 
 ```bash
-./hvm input.vm output.asm
+./hasm input.asm output.hack
 
 ```
 
@@ -21,3 +22,6 @@ cd build
 cmake ..
 make
 ```
+
+
+
